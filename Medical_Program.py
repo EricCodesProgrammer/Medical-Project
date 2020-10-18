@@ -1,9 +1,10 @@
 import pyttsx3
-import checking_the_id_and_name
+# import checking_the_id_and_name
 import time
 from selenium import webdriver
 import webbrowser
 from plyer import notification
+import speech_recognition as sr
 
 # I can also create a text file for storing all the names, ID and all
 
@@ -17,7 +18,7 @@ def speak(text):
     engine.runAndWait()
 
 
-print(checking_the_id_and_name)
+# print(checking_the_id_and_name)
 
 # Here i am programming a class which is the main program
 class MeddieProgram():
@@ -29,9 +30,9 @@ class MeddieProgram():
     def program_run():
         program_project = MeddieProgram
         program_project.greet_user('greet')
-        program_project.create_a_bio('bio')
+        # program_project.create_a_bio('bio')
         program_project.disease_program()
-        program_project.rating_app(5)
+        # program_project.rating_app(5)
 
     # Here i am creating a function which wishes the user according to the time
     def greet_user(self):
@@ -69,12 +70,26 @@ class MeddieProgram():
     # This is the official and the main disease program
     @staticmethod
     def disease_program():
+        def user_input():
+            r = sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Listening....")
+                audio = r.listen(source)
+
+            try:
+                search_input = r.recognize_google(audio)
+                print("You said: {}".format(search_input))
+            except sr.UnknownValueError:
+                print("Sorry i could not hear that, :(")
+                return None
+            return search_input
         driver = webdriver.Chrome()
         driver.get('https://symptoms.webmd.com/')
         driver.maximize_window()
         while True:
             try:
-                ask_age = int(input('What is your age: '))
+                speak('Can you please tell me what is your age')
+                ask_age = user_input()
             except ValueError:
                 print('The value you entered is incorrect')
             else:
@@ -82,12 +97,13 @@ class MeddieProgram():
         age = driver.find_element_by_xpath('//*[@id="age"]')
         age.send_keys(ask_age)
         while True:
-            gender = input('Enter your gender: ')
-            if gender == 'Male':
+            speak('Can you please tell me what is your gender')
+            gender = user_input()
+            if gender == 'Mail'.lower():
                 male = driver.find_element_by_xpath('//*[@id="male"]')
                 male.click()
                 break
-            elif gender == 'Female':
+            elif gender == 'Female'.lower():
                 female = driver.find_element_by_xpath('//*[@id="female"]')
                 female.click()
                 break
@@ -98,7 +114,8 @@ class MeddieProgram():
 
         # this a function in which we can enter our disease
         def enter_disease():
-            ask_symptoms = input('Enter your symptoms: ')
+            speak('Can you please tell me your symptoms')
+            ask_symptoms = user_input()
             enter_symptom = driver.find_element_by_xpath('//*[@id="ContentPane30"]/div/div/div/div[3]/div[1]/div[1]/div[2]/input')
             enter_symptom.send_keys(ask_symptoms)
             import pyautogui
@@ -108,10 +125,11 @@ class MeddieProgram():
             pyautogui.click(442, 618)
         enter_disease()
         while True:
-            ask_more = input('Do you want to enter more diseases? : ')
+            print('Do you want to enter more diseases? : ')
+            ask_more = user_input()
             if ask_more == 'Yes'.lower():
                 enter_disease()
-            elif ask_more == 'No':
+            elif ask_more == 'No'.lower():
                 print('Ok finding the disease related to your symptom')
                 break
             else:

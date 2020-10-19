@@ -99,7 +99,7 @@ class MeddieProgram():
         while True:
             speak('Can you please tell me what is your gender')
             gender = user_input()
-            if gender == 'Mail'.lower():
+            if gender == 'Male'.lower():   #  If your input is being changed to "MAIL" instead of Male then change this Male to Mail 
                 male = driver.find_element_by_xpath('//*[@id="male"]')
                 male.click()
                 break

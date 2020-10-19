@@ -1,5 +1,5 @@
 import pyttsx3
-# import checking_the_id_and_name
+import checking_the_id_and_name
 import time
 from selenium import webdriver
 import webbrowser
@@ -18,7 +18,7 @@ def speak(text):
     engine.runAndWait()
 
 
-# print(checking_the_id_and_name)
+print(checking_the_id_and_name)
 
 # Here i am programming a class which is the main program
 class MeddieProgram():
@@ -30,9 +30,9 @@ class MeddieProgram():
     def program_run():
         program_project = MeddieProgram
         program_project.greet_user('greet')
-        # program_project.create_a_bio('bio')
+        program_project.create_a_bio('bio')
         program_project.disease_program()
-        # program_project.rating_app(5)
+        program_project.rating_app(5)
 
     # Here i am creating a function which wishes the user according to the time
     def greet_user(self):
